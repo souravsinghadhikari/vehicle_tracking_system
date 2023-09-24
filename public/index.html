@@ -1,23 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>location</title>
-
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    
+
 </head>
+
 <body>
+    <div class="main">
+        <div class="nav">
+            <h2><i class="ri-map-pin-fill"></i>Track Now</h2>
+            <div class="navpart">
+                <h4>Home</h4>
+                <h4>Service</h4>
+                <h4>About</h4>
+                <h4>challenges</h4>
+                <h4 style="height: 50px; width: 50px; border-radius: 25px;"><img style="height: 100%; width: 100%;"
+                        src="data:image/png;base64,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"
+                        alt=""></h4>
+                <button><a href="login.html" style=" color: #5e58cf;">Register</a>
 
-    <div id="map"></div>
+                </button>
+                <button><a href="driver.html" style=" color: #5e58cf;">Login</a></button>
+                <i class="ri-menu-3-line"></i>
+            </div>
 
-    <!-- <script type="module">
-        import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
-    </script> -->
-    <script src="http://localhost:8080/socket.io/socket.io.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="index.js"></script>
+        </div>
+        <div class="content">
+            <div class="left">
+                <h1>The Benefits of <span>Tracking...</span> vehicles</h1>
+                <p>safety compliance efficiency Tranining and security- you can achieve it all with just on solution</p>
+                <div class="explore">
+                    <button class="go"> <a href="check.html" style=" color: #5e58cf;"> <i
+                                class="ri-arrow-right-line"></i>Explore now</a></button>
+                    <button class="down"> <a href="#learn" style=" color: #5e58cf;"><i
+                                class="ri-arrow-down-line"></i>Learn More</a></button>
+                </div>
+
+            </div>
+            <div class="right">
+                <img src="https://img.freepik.com/premium-vector/car-sharing-service-concept_108855-2566.jpg" alt="">
+            </div>
+        </div>
+        <div class="second">
+            <div>
+                <i class="ri-car-line"></i>
+                <h1>Mutiple vehicle Tracking</h1>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime fugit porro commodi saepe vitae ea
+                    corrupti, dolor atque reprehenderit officiis.
+                </p>
+            </div>
+            <div>
+                <i class="ri-notification-2-line"></i>
+                <h1>Indecent Alram</h1>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime fugit porro commodi saepe vitae ea
+                    corrupti, dolor atque reprehenderit officiis.
+                </p>
+            </div>
+            <div>
+                <i class="ri-bar-chart-grouped-line"></i>
+                <h1>Inclusive Dashboard</h1>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime fugit porro commodi saepe vitae ea
+                    corrupti, dolor atque reprehenderit officiis.
+                </p>
+            </div>
+        </div>
+        <div class="third" id="learn">
+            <div class="third1"><img
+                    src="https://img.freepik.com/premium-vector/concepts-online-ordering-taxi-car-using-mobile-application-service-smartphone-screen-background-city-with-location-route-points-map-illustration_185004-58.jpg?w=1060"
+                    alt=""></div>
+            <div class="third2">
+                <h1>Access from anywhere</h1>
+                <p> easy access from anywhere in world Reach to your destination on time
+                    we <span><i class="ri-map-pin-fill"></i>Track now</span> provide you security better time management
+                    easy to access </p>
+            </div>
+        </div>
+        <div class="fourth">
+
+            <div class="third2">
+                <h1>Realtime Dashboard</h1>
+                <p> A dashboard (also called dash, instrument panel or IP, or fascia) is a
+                    control panel set within the central console of a vehicle or small aircraft.
+                    Usually located directly ahead of the driver (or pilot), it displays
+                    all the data what you and when you need. </p>
+            </div>
+            <div class="third1"><img
+                    src="https://cdn.dribbble.com/users/1624253/screenshots/7117172/media/187a0290e629417e1dfc02a0fe0acd4e.png?resize=1000x750&vertical=center"
+                    alt=""></div>
+        </div>
+        <div class="third">
+            <div class="third1"><img
+                    src="https://cdn.dribbble.com/users/1631072/screenshots/6734254/dribbble_upload_fleet.png" alt="">
+            </div>
+            <div class="third2">
+                <h1>Fuel management</h1>
+                <p>Better fuel management decrease the cutting cost and increse the efficiency and
+                    also tells the condtion of the vehicals proper milage ,less pollutions,eco friendly
+                </p>
+            </div>
+        </div>
+        <div class="fifth">
+            <div class="up">
+                <h1>Advance Sensor Configuration</h1>
+                <p>these advance feature will provide you security time management safety </p>
+                <div class="divimg">
+                    <img src="https://www.mdpi.com/sensors/sensors-18-01212/article_deploy/html/images/sensors-18-01212-g001.png"
+                        alt="">
+                </div>
+            </div>
+            <div class="up1">
+
+                <div>
+                    <li style="background-color: #D3E2F7;"><i class="fa-solid fa-tower-broadcast"
+                            style="color: royalblue;"></i></li>
+                    <h1> 2 Way Communication with GPS</h1>
+                </div>
+                <div>
+                    <li style="background-color: #FDE4D2;"><i class="fa-solid fa-door-open" style="color: #F3771A;"></i>
+                    </li>
+                    <h1>Door Sensor</h1>
+                </div>
+                <div>
+                    <li style="background-color: #D7F0E5;"><i class="ri-gas-station-fill" style="color: #12cd7f;"></i>
+                    </li>
+                    <h1>Fuel Sensor</h1>
+                </div>
+                <div>
+                    <li style="background-color: #827f7f;"><i class="ri-temp-hot-line"
+                            style="color: rgb(44,61,70);"></i></li>
+                    <h1>Temperature Sensor</h1>
+                </div>
+
+            </div>
+        </div>
+        <div class="sixth">
+            <h2> 😊❤️❤️Words From our customers</h2>
+            <p>The love,feeling and praise from customers's heart </p>
+            <div class="feed">
+                <div class="feed1" style="background-color: #D7F0E5; border: 2px solid #dadada;">
+                    I wanted to provide some feedback on your application.Overall i had a positive experience using it.
+                    The user interface is intuitive and it's been helpful in manage the tasks!!..💪💪💪💪💪
+                    <br>
+                    <br>
+                    Thanku you !!
+                    <br>
+                    Shiddhart singh
+                    <br>
+                    software developer..
+                </div>
+                <div class="feed2" style="background-color: #D3E2F7; border: 2px solid #dadada;">
+                    I've been using (Track now) on an android device with the latest app version .My experience has been
+                    generally good
+                    and i look forward to seeing imporements in future updates!!...👍👍👍👍👍👍
+                    <br>
+                    <br>
+                    Thanku you for your hard work!!
+                    <br>
+                    shivam joshi
+                    <br>
+                    software developer..
+
+
+
+                </div>
+            </div>
+        </div>
+        <div class="seven">
+
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+        integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+
+        gsap.from(".down", {
+            scale: 0,
+            opacity: 0,
+            duration: 1.2
+
+        })
+        gsap.to(".down", {
+            y: 30,
+            repeat: -1,
+            duration: 0.7,
+            yoyo: true,
+        })
+        gsap.from(".go", {
+            scale: 0,
+            opacity: 0,
+        })
+        gsap.to(".go", {
+            x: 30,
+            repeat: -1,
+            duration: 0.7,
+            yoyo: true,
+        })
+
+    </script>
 </body>
+
 </html>
