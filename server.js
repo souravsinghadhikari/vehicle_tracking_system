@@ -6,7 +6,7 @@ const vehiclemodel = require("./models/vehicle");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const vehicle = require("./models/vehicle");
+
 // const {mapLoaderid} = require(path.join(__dirname,"public","index.js"))
 // require 
 
@@ -44,16 +44,20 @@ io.on("error", (error) => {
 
 // get api
 
-app.get('/home', (req, res) => {
-  res.send("homepagewithlogo");
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname,"public","home.html"));
 })
 
 app.get('/register',(req,res)=>{
-  res.send("register page");
+  res.send(path.join(__dirname,"public","register.html"));
+})
+
+app.get('/login',(req,res)=>{
+  res.send(path.join(__dirname,"public","login.html"));
 })
 
 app.get('/map', (req, res) => {
-  res.sendFile(path.join(__dirname,"public","index.html"));
+  res.sendFile(path.join(__dirname,"public","map.html"));
 })
 
 // post request
@@ -61,13 +65,15 @@ app.get('/map', (req, res) => {
 app.post('/register',(req,res)=>{
   const data = req.body;
   console.log(data);
-  
-
+  if(data.password!=data.confirmpassword){
+    res.send("Passwords do not match. Please enter them again.");
+    return ;
+  }
   bcrypt.hash(data.password,5,async function (err,hash){
     if (err) return res.send("some error while crypting");
     // driver condition
-  if(Object.keys(data).length >= 4){
-    const{name,email,password,vehicleid} = data;
+  if(data.vehicleid!=''){
+    const{name,email,password,vehicleid:vehicleid} = data;
     let vehicle = new vehiclemodel ({vehicleid:vehicleid});
     await vehicle.save();
   }else {
@@ -79,25 +85,31 @@ app.post('/register',(req,res)=>{
   })
 })
 
-app.post('/',(req,res)=>{
-  const data = req.body;
-  console.log(data);
-  
-
-  bcrypt.hash(data.password,5,async function (err,hash){
-    if (err) return res.send("some error while crypting");
-    // driver condition
-  if(Object.keys(data).length >= 4){
-    const{name,email,password,vehicleid} = data;
-    let vehicle = new vehiclemodel ({vehicleid:vehicleid});
-    await vehicle.save();
-  }else {
-    const {name,email,password}=data;
-    let user = new usermodel ({email,password:hash});
-    await user.save();
+app.post('/login',async(req,res)=>{
+  const {email,password}= req.body;
+  let option = {
+    expiresIn : "5h"
   }
-  res.send("data is saved");
-  })
+  try{
+    let data = await usermodel.find({email});
+    if(data.length>0){
+      let token = jwt.sign({userid : data[0]._id},"sourav",option);
+      bcrypt.compare(password,data[0].password,function(err,result){
+        if(err) return res.send("something went wrong");
+        if(result){
+          console.log(token);
+          res.send("loged in succesfuly" );
+        }else {
+          res.send("wrong password");
+        }
+      })
+    }
+    else {
+      res.send("user does not exist");
+    }
+  }catch(error) {
+    res.send("error" + error);
+  }
 })
 
 // listening to port

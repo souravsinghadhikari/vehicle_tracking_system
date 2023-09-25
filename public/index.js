@@ -6,7 +6,11 @@ socket.on("connect",()=>{
     console.log(socket.id);
 })
  
-// map bnra
+// const ques=prompt("are you a bus driver");
+// if(ques==="yes")
+// {
+//     console.log("yes i am a bus driver");
+// }
 
 let map,osm,count=0; // Declare map in the global scope
 

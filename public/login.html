@@ -3,137 +3,131 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account Page</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <title>umesh</title>
+    <link rel="stylesheet" href="one.css">
+    <link rel="icon" href="favicon.ico">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+        *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.outer{
+    width: 100vw;
+    height: 100vh;
+    background:linear-gradient(to top left,red,blue);
+}
+.inner{
+    width: 400px;
+    margin: 0 auto;
+    position:relative;
+    top: 30%;
+   
+    padding: 20px 40px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px aqua;
+    z-index: 2;
+}
+.signup h1{
+    font-size: 2.5rem;
+    color: black;
+}
+.signup p{
+    font-size: 0.8rem;
+    color: blueviolet;
+}
+.signbody{
+    margin: 20px 0;
+  
+}
+.signbody p{
+    margin: 10px 0;
+}
+.signbody p label{
+    font-weight: bold;
+    display:block;
+}
+.signbody p input{
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    margin-top: 4px;
+}
+.signbody p input[type="submit"]{
 
-        .create-account-container {
-            max-width: 300px;
-            background-color: #f9f9f9;
-            padding: 50px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 17px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .div {
-            display: none;
-        }
-
-        .nav {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            height: 50px;
-            width: 100%;
-            border: 2px solid black;
-            gap: 70vw;
-
-            padding-left: 60px;
-        }
-
-        .navpart {
-            display: flex;
-            justify-content: space-evenly;
-            width: 15%;
-        }
-
-        li {
-            list-style: none;
-            list-style: none;
-            height: 30px;
-            width: 30px;
-            border-radius: 15px;
-        }
-
-        img {
-            height: 100%;
-            width: 100%;
-        }
+    background-color: #3498db;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+.signbody p input[type="submit"]:hover{
+color: aqua;
+}
+footer{
+    text-align: center;
+}
+.inner footer p a{
+    color: rgb(230, 11, 193);
+}
+.circle{
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    background:linear-gradient(to right,yellow ,aqua);
+    position: absolute;
+}
+.c1{
+    top: 100px;
+    left: 40px;
+}
+.c2{
+    bottom: 100px;
+    right: 50px;
+}
     </style>
+    
 </head>
 
 <body>
-    <div class="nav">
-        <h2><i class="ri-map-pin-fill"></i>TechNautS</h2>
-        <div class="navpart">
-            <li><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/facebook-icon.png"
-                    alt=""></li>
-            <li><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/instagram-icon.svg"
-                    alt=""></li>
-            <li><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/linkedin-icon.svg"
-                    alt=""></li>
-
-        </div>
-
-    </div>
-    <div class="create-account-container">
-        <h2>Create Account</h2>
-        <form>
-            <input type="text" placeholder="Full Name" required><br>
-            <input type="email" placeholder="Email" required><br>
-            <input type="password" placeholder="Password" required><br>
-            <input type="password" placeholder="Confirm Password" required><br>
-            <input type="checkbox" name="group1" value="option1" id="driver"> vehicle
-            <br>
-            <div class="div">
-                <input type="password" placeholder="Adhaar Number (only for driver)" required><br>
-                <input type="password" placeholder="R.C Number (only for driver)" required><br>
-            </div>
-            <br>
-            <input type="submit" value="Create Account">
+ <!-- <ul><li>Homepage</li>
+ <li>Gallary</li>
+ <li>Content</li></ul>-->
+ <div class="outer"><div class="inner">
+    <header class="signup">
+        <h1>Log in </h1>
+        <p>It just take 30 second</p>
+    </header>
+    <main class="signbody">
+        <form action="mailto:umeshbisht792@gmail.com" method="post"enctype="text/plain" >
+            <p>
+                <label for="full name">full name</label>
+                <input id="full name"  type="text" placeholder="Name">
+            </p>
+            <p>
+                <label for="Email">Email</label>
+                <input id="email"  type="email" placeholder="Enter the gmail">
+            </p>
+            <p>
+                <label for="passward">password</label>
+                <input id="passward"   name="passward"   type="password" placeholder="enter the passward">
+            </p>
+            <p>
+               
+                <input id="submit"  type="submit" value="Log In">
+            </p>
         </form>
+    </main>
+    <footer class="check"><p>Don't have an account? 
+        <a href="#">Register</a></p></footer>
     </div>
+    <div class="circle c1"></div>
+    <div class="circle c2"></div>
+    </div>
+
 
 </body>
-<script>
-    var target = document.getElementById("driver");
-    var a;
-
-    target.addEventListener("click", () => {
-        a = document.getElementById("driver").checked;
-        if (a) {
-            console.log(driver.value);
-            document.getElementsByClassName("div")[0].style.display = "block"
-
-        }
-        else {
-            document.getElementsByClassName("div")[0].style.display = "none"
-        }
-    })
-</script>
 
 </html>
