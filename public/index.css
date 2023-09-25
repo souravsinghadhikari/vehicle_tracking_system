@@ -276,10 +276,28 @@ list-style: none;
     display: flex;
     align-items: center;
 }
- .seven{
-    height: 300px;
-    width: 100%;
- }
+.container{
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+    align-items: center;
+    gap: 50px;
+    height: 250px;
+    width: 100%;;
+}
+.footer-coloum{
+    display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+}
+.mainfooter{
+    background-color: #dadada;
+  height: 300px;
+  width: 100%;
+  align-items: center;
+  display: flex;
+}
 
 
 
