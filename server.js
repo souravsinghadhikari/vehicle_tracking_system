@@ -23,12 +23,11 @@ app.use(express.static('public'));
 app.use(cookieParser());
 
 // socket io connection
+const { createServer } = require("http");
+const { Server } = require("socket.io");
 
-const io = require("socket.io")(process.env.SOCKETPORT, {
-  cors: {
-    origin: [`http://localhost:${process.env.PORT}`]
-  }
-});
+const httpServer = createServer(app);
+const io = new Server(httpServer, { /* options */ });
 
 io.on("connect", (socket) => {
   console.log("connected to socket from server");
@@ -52,6 +51,6 @@ app.use("/user",userRouter);
 
 // listening to port
 
-  app.listen(process.env.PORT,()=>{
+  httpServer.listen(process.env.PORT,()=>{
     console.log(`connected to port ${process.env.PORT}`);
   });

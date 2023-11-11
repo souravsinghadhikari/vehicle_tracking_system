@@ -1,6 +1,7 @@
 // const bodyParser = require("body-parser");
 // connection with socket at port 8080 from 3000
-const socket = io('http://localhost:8080'); // Connect to the server
+
+const socket = io();
 
 // used to do something if connection is established
 socket.on("connect",()=>{
