@@ -41,8 +41,24 @@
         <img src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg" alt="Profile Picture">
         <h1 id="username">User Name</h1>
         <p id="useremail">Email</p>
-        <p id="phonenumer">Contact Detail</p>
+        <p id="phonenumber">Contact Detail</p>
         <h3>Tokens Rewarded : <span id="usertokens">000</span></h3>
     </div>
+<script>
+        // Fetch user information from the server
+fetch('/user/profileinfo')
+  .then(response => response.json())
+  .then(data => {
+    // Update DOM elements with received user information
+    console.log(data);
+    document.getElementById('username').textContent = data.username; // Assuming 'username' is in the server response
+    document.getElementById('useremail').textContent = data.email; // Assuming 'email' is in the server response
+    document.getElementById('usertokens').textContent = data.ecoCoupon; // Assuming 'tokens' is in the server response
+  })
+  .catch(error => {
+    console.log('Error fetching user information: ', error);
+  });
+
+</script>
 </body>
 </html>

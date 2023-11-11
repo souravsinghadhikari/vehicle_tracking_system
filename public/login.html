@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>umesh</title>
-    <link rel="stylesheet" href="one.css">
     <link rel="icon" href="favicon.ico">
     <style>
         *{
@@ -101,22 +100,21 @@ footer{
         <p>It just take 30 second</p>
     </header>
     <main class="signbody">
-        <form action="mailto:umeshbisht792@gmail.com" method="post"enctype="text/plain" >
+        <form method="post" action="/user/login">
             <p>
-                <label for="full name">full name</label>
-                <input id="full name"  type="text" placeholder="Name">
+                <label for="full-name">Full Name</label>
+                <input id="full-name" name="fullname" type="text" placeholder="Name">
             </p>
             <p>
-                <label for="Email">Email</label>
-                <input id="email"  type="email" placeholder="Enter the gmail">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="Enter the email">
             </p>
             <p>
-                <label for="passward">password</label>
-                <input id="passward"   name="passward"   type="password" placeholder="enter the passward">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" placeholder="Enter the password">
             </p>
             <p>
-               
-                <input id="submit"  type="submit" value="Log In">
+                <input id="submit" type="submit" value="Log In">
             </p>
         </form>
     </main>

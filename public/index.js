@@ -2,17 +2,12 @@
 // connection with socket at port 8080 from 3000
 const socket = io('http://localhost:8080'); // Connect to the server
 
+// used to do something if connection is established
 socket.on("connect",()=>{
-    console.log(socket.id);
+    console.log("connected to socket from client");
 })
- 
-// const ques=prompt("are you a bus driver");
-// if(ques==="yes")
-// {
-//     console.log("yes i am a bus driver");
-// }
 
-let map,osm,count=0; // Declare map in the global scope
+let map,osm,count=0,busIcon; // Declare map in the global scope
 
 navigator.geolocation.getCurrentPosition(gotlocation, errorlocation, { enableHighAccuracy: true });
 
@@ -21,12 +16,28 @@ function gotlocation(position) {
     const longitude = position.coords.longitude;
     const accuracy=position.coords.accuracy;
 
+    
+    let allCookies = document.cookie; // Get all cookies as a string
+let cookiesArray = allCookies.split("; "); // Split cookies into an array
+
+for (let i = 0; i < cookiesArray.length; i++) {
+    let cookie = cookiesArray[i];
+    if (cookie.indexOf("driver") === 0) {
+        busIcon = L.icon({
+            iconUrl: 'https://cdn-icons-png.flaticon.com/128/3448/3448339.png', // Example icon URL
+            iconSize: [50, 50], // Set the size of the icon
+            iconAnchor: [16, 32], // Set the anchor point of the icon
+            popupAnchor: [0, -16] // Set the anchor point for the popup
+        });
+    }
+}
+
     // shahring location
-
-    socket.emit("sendlocation",{latitude : latitude, longitude : longitude, accuracy : accuracy},(response)=>{
-        console.log('location send');
-    })
-
+    if(busIcon!=null){
+        socket.emit("sendlocation",{latitude : latitude, longitude : longitude, accuracy : accuracy},()=>{
+            console.log('location send and the response from server is');
+        })
+    }
 
     console.log(position);
     if (count==0){
@@ -79,9 +90,42 @@ function setposition(latitude,longitude,accuracy){
     
     if(marker)map.removeLayer(marker);
     if(circle)map.removeLayer(circle);
-    
-    marker = L.marker([latitude,longitude]).addTo(map);
+
+    if (busIcon==null) {
+        marker = L.marker([latitude,longitude]).addTo(map);
+    }
+    else {
+        marker = L.marker([latitude,longitude],{icon : busIcon}).addTo(map);
+    }
     circle = L.circle([latitude,longitude],{radius:accuracy}).addTo(map);
+   
+    const userLatLng = L.latLng(latitude, longitude);
+
+
+    // Create a bounding box centered around the user's location
+    const bounds = userLatLng.toBounds(5000); // 500 meters in all directions
+
+    // Fit the map to the bounding box
+    map.fitBounds(bounds);
+}
+
+let markerbus , circlebus;
+ 
+function setbusposition(latitude,longitude,accuracy){
+    
+    if(markerbus)map.removeLayer(markerbus);
+    if(circlebus)map.removeLayer(circlebus);
+
+    let markerBusIcon = L.icon({
+        iconUrl: 'https://cdn-icons-png.flaticon.com/128/3448/3448339.png', // Example icon URL
+        iconSize: [50, 50], // Set the size of the icon
+        iconAnchor: [16, 32], // Set the anchor point of the icon
+        popupAnchor: [0, -16] // Set the anchor point for the popup
+    });
+
+    markerbus = L.marker([latitude,longitude],{icon : markerBusIcon}).addTo(map);
+
+    circlebus = L.circle([latitude,longitude],{radius:accuracy}).addTo(map);
    
     const userLatLng = L.latLng(latitude, longitude);
 
@@ -95,9 +139,18 @@ function setposition(latitude,longitude,accuracy){
 
 
 // print all the location acheived from server
-socket.on("printlocation",(data,callback)=>{
+socket.on("printlocation", (data) => {
     console.log('this data is from server');
+    console.log(data.latitude);
+    if (data.latitude !== undefined && data.longitude !== undefined && data.accuracy !== undefined) {
         console.log('calling function and locating others');
-        setposition(data.latitude,data.longitude,data.accuracy);
-    callback("data is printed");
+        setbusposition(data.latitude, data.longitude, data.accuracy);
+    } else {
+        console.log('Incomplete data received from server');
+        // Handle the scenario where the data is incomplete or missing necessary properties
+        // For example, display an error message or handle it in an appropriate way
+    }
 })
+
+
+
