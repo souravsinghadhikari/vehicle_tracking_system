@@ -42,7 +42,7 @@ const router = express.Router();
       let user = new usermodel ({name,email,password:hash,ecoCoupon : 0});
       await user.save();
     }
-    res.send("data is saved");
+    res.redirect("/user/map");
     })
   })
   router.post('/login',async(req,res)=>{
@@ -80,12 +80,16 @@ const router = express.Router();
     const userid=req.body.user;
     const email = userid.email;
     let data = await usermodel.findOne({email});
-    console.log(data);
+    // console.log(data);
     res.json(data);
   });
 
   router.get('/profile',(req,res)=>{
     res.sendFile(path.join(__dirname,"../public/profile.html"))
+  })
+
+  router.get('/about',(req,res)=>{
+    res.sendFile(path.join(__dirname,"../public/about.html"))
   })
 
   module.exports = router ;
