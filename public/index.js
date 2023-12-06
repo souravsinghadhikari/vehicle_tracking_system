@@ -73,7 +73,8 @@ function setmap(latitude, longitude, accuracy) {
     osm.addTo(map);
 
     // add search bar
-    
+    var geocoder= L.Control.Geocoder.nominatim();
+     console.log("hlw",geocoder);
     var geolocation = L.Control.geocoder({
         defaultMarkGeocode: false,
         position: 'topleft',  // Set the position to topright
