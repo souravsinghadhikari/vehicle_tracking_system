@@ -9,14 +9,23 @@ socket.on("connect", () => {
     console.log("connected to socket from client");
 })
 
-let map, osm, count = 0, busIcon; // Declare map in the global scope
+let map, osm, count = 0, busIcon,driver =0,lat,lang; // Declare map in the global scope
+
+busIcon = L.icon({
+    iconUrl: 'https://cdn-icons-png.flaticon.com/128/3448/3448339.png', // Example icon URL
+    iconSize: [50,50], // Set the size of the icon
+});
 
 navigator.geolocation.getCurrentPosition(gotlocation, errorlocation, { enableHighAccuracy: true });
 
 function gotlocation(position) {
+    
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
     const accuracy = position.coords.accuracy;
+
+    lat = latitude;
+    lang = longitude;
 
 
     let allCookies = document.cookie; // Get all cookies as a string
@@ -25,18 +34,17 @@ function gotlocation(position) {
     for (let i = 0; i < cookiesArray.length; i++) {
         let cookie = cookiesArray[i];
         if (cookie.indexOf("driver") === 0) {
-            busIcon = L.icon({
-                iconUrl: 'https://cdn-icons-png.flaticon.com/128/3448/3448339.png', // Example icon URL
-                iconSize: [50, 50], // Set the size of the icon
-            });
+            driver=1;
         }
     }
 
     // shahring location
-    if (busIcon != null) {
+    if (driver) {
         socket.emit("sendlocation", { latitude: latitude, longitude: longitude, accuracy: accuracy }, () => {
             console.log('location send and the response from server is');
         })
+    }else {
+        console.log("no driver");
     }
 
     console.log(position);
@@ -99,7 +107,14 @@ function setmap(latitude, longitude, accuracy) {
             L.latLng(latitude, longitude) // Default starting point
         ],
         routeWhileDragging: true,
-        geocoder: L.Control.Geocoder.nominatim()
+        geocoder: L.Control.Geocoder.nominatim(),
+        createMarker: function(i, waypoint, n) {
+            // Create a marker only for the last (destination) waypoint
+            if (i === n - 1) {
+                return L.marker(waypoint.latLng);
+            }
+            return null; // Return null for other waypoints
+        }
     });
 
     control.addTo(map);
@@ -138,7 +153,7 @@ function setposition(latitude, longitude, accuracy) {
     if (marker) map.removeLayer(marker);
     if (circle) map.removeLayer(circle);
 
-    if (busIcon == null) {
+    if (driver == 0) {
         marker = L.marker([latitude, longitude]).addTo(map);
     }
     else {
@@ -163,27 +178,38 @@ function setbusposition(latitude, longitude, accuracy) {
     if (markerbus) map.removeLayer(markerbus);
     if (circlebus) map.removeLayer(circlebus);
 
-    let markerBusIcon = L.icon({
-        iconUrl: 'https://cdn-icons-png.flaticon.com/128/3448/3448339.png', // Example icon URL
-        iconSize: [50, 50], // Set the size of the icon
-        iconAnchor: [16, 32], // Set the anchor point of the icon
-        popupAnchor: [0, -16] // Set the anchor point for the popup
-    });
+    // let markerBusIcon = L.icon({
+    //     iconUrl: 'https://cdn-icons-png.flaticon.com/128/3448/3448339.phttps://www.flaticon.com/free-icon/location_10903014ng', // Example icon URL
+    //     iconSize: [50, 50], // Set the size of the icon
+    //     iconAnchor: [16, 32], // Set the anchor point of the icon
+    // });
 
-    markerbus = L.marker([latitude, longitude], { icon: markerBusIcon }).addTo(map);
+    markerbus = L.marker([latitude, longitude], { icon: busIcon }).addTo(map);
 
     circlebus = L.circle([latitude, longitude], { radius: accuracy }).addTo(map);
 
     const userLatLng = L.latLng(latitude, longitude);
 
-
     // Create a bounding box centered around the user's location
-    const bounds = userLatLng.toBounds(5000); // 500 meters in all directions
-
-    // Fit the map to the bounding box
-    map.fitBounds(bounds);
+    userLatLng.toBounds(5000); // 500 meters in all directions
 }
 
+// on clicking circular button
+
+// function onCircularButtonClick() {
+//     // Change the background color of the button
+//     var button = document.querySelector('.circular-button');
+//     button.style.backgroundColor = '#f00'; // Change to your desired color
+
+//     const userLatLng = L.latLng(lat,lang);
+
+//     // Create a bounding box centered around the user's location
+//     const bounds = userLatLng.toBounds(5000); // 500 meters in all directions
+
+//     // Fit the map to the bounding box
+//     map.fitBounds(bounds);
+
+// }
 
 // print all the location acheived from server
 socket.on("printlocation", (data) => {

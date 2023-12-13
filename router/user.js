@@ -67,7 +67,7 @@ const router = express.Router();
           if(err) return res.send("something went wrong");
           if(result){
             res.cookie("driver",'yes');
-            return res.status(201).send("wlcm driver shab");
+            res.redirect("/user/map");
           }
         })
       }
